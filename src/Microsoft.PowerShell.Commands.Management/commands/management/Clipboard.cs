@@ -50,6 +50,7 @@ namespace Microsoft.PowerShell.Commands.Internal
                 }
 
                 stdout = process.StandardOutput.ReadToEnd();
+                Console.WriteLine("WaitForExit 250");
                 process.WaitForExit(250);
 
                 _clipboardSupported = process.ExitCode == 0;

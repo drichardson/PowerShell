@@ -462,6 +462,7 @@ namespace System.Management.Automation
 
                     try
                     {
+                        Console.WriteLine("Starting native process");
                         _nativeProcess = new Process() { StartInfo = startInfo };
                         _nativeProcess.Start();
                     }
@@ -684,8 +685,13 @@ namespace System.Management.Automation
                     _inputWriter.Done();
 
                     // read all the available output in the blocking way
+                    Console.WriteLine("HERE");
                     ConsumeAvailableNativeProcessOutput(blocking: true);
-                    _nativeProcess.WaitForExit();
+                    bool ok = _nativeProcess.WaitForExit(-1);
+                    if (ok) {
+                        Console.WriteLine("Got OK");
+                        _nativeProcess.WaitForExit();
+                    }
 
                     // Capture screen output if we are transcribing and running stand alone
                     if (_isTranscribing && (s_supportScreenScrape == true) && _runStandAlone)
@@ -1021,11 +1027,17 @@ namespace System.Management.Automation
                 // Dispose the process if it's already created
                 if (_nativeProcess != null)
                 {
+                    Console.WriteLine("Calling _nativeProcess.Dispose");
                     _nativeProcess.Dispose();
+                }
+                else
+                {
+                    Console.WriteLine("Not Calling _nativeProcess.Dispose");
                 }
             }
             catch (Exception)
             {
+                Console.WriteLine("Got exception, dispose not called");
             }
         }
 

@@ -2023,6 +2023,7 @@ namespace Microsoft.PowerShell.Commands
                     if (!process.HasExited)
                     {
 #if UNIX
+                        Console.WriteLine("WaitForExit Process.cs");
                         process.WaitForExit();
 #else
                         _waithandle = new ManualResetEvent(false);
@@ -2039,6 +2040,7 @@ namespace Microsoft.PowerShell.Commands
                             // WinBlue: 27537 Start-Process -Wait doesn't work in a remote session on Windows 7 or lower.
                             process.Exited += myProcess_Exited;
                             process.EnableRaisingEvents = true;
+                            Console.WriteLine("WaitForExit Process.cs (2)");
                             process.WaitForExit();
                         }
 #endif

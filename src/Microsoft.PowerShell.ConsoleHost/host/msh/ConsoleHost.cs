@@ -2384,7 +2384,7 @@ namespace Microsoft.PowerShell
                 parent.RunspacePopped += HandleRunspacePopped;
                 parent.RunspacePushed += HandleRunspacePushed;
                 _exec = new Executor(parent, isNested, false);
-                _promptExec = new Executor(parent, isNested, true);
+                _promptExec = new Executor(parent, isNested, false);
             }
 
             private void HandleRunspacePushed(object sender, EventArgs e)
@@ -2470,7 +2470,8 @@ namespace Microsoft.PowerShell
                                 }
                             }
 
-                            ui.Write(prompt);
+                            //ui.Write(prompt);
+                            ui.Write("\u001b[31mHello World!\u001b[0m");
                         }
 
                         previousResponseWasEmpty = false;
@@ -2582,7 +2583,10 @@ namespace Microsoft.PowerShell
                             }
                             else
                             {
+                                ui.Write("Before");
                                 _exec.ExecuteCommand(line, out e, Executor.ExecutionOptions.AddOutputter | Executor.ExecutionOptions.AddToHistory);
+                                //_exec.ExecuteCommand("echo 'n'|cat.exe", out e, Executor.ExecutionOptions.AddOutputter);
+                                ui.Write("After");
                             }
 
                             Thread bht = null;
